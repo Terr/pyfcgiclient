@@ -13,8 +13,8 @@ Example
 from pyfcgiclient.fpm import FPM
 
 phpfpm = FPM(
-    host=getattr(settings, 'FPM_HOST', '127.0.0.1'),
-    port=getattr(settings, 'FPM_PORT', 9000),
+    host='127.0.0.1',
+    port=9000,
     document_root='/var/www/'
 )
 
