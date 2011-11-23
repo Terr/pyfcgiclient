@@ -26,7 +26,12 @@ import flup_fcgi_client as fcgi_client
 
 
 class FPM(object):
-    def __init__(self, host='127.0.0.1', port=9000, document_root='/var/www'):
+    def __init__(self, host='127.0.0.1', port=9000, sock=None, document_root='/var/www'):
+	if sock:
+            # Connect to a Unix socket, but keep using use host and port as environment
+            # variables
+	    self.fcgi_sock = sock
+
         self.fcgi_host = host
         self.fcgi_port = port
 
@@ -43,8 +48,11 @@ class FPM(object):
         :param cookies: String with cookies in 'a=b;' format
         :rtype: Tuple: status header, headers, output, error message
         """
-        fcgi = fcgi_client.FCGIApp(host = self.fcgi_host,
-                                   port = self.fcgi_port)
+	if hasattr(self, 'fcgi_sock'):
+		fcgi = fcgi_client.FCGIApp(sock=self.fcgi_sock)
+	else:
+		fcgi = fcgi_client.FCGIApp(host = self.fcgi_host,
+					   port = self.fcgi_port)
 
         try:
             script_name, query_string = url.split('?')
