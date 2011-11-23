@@ -49,7 +49,7 @@ class FPM(object):
         :rtype: Tuple: status header, headers, output, error message
         """
 	if hasattr(self, 'fcgi_sock'):
-		fcgi = fcgi_client.FCGIApp(sock=self.fcgi_sock)
+		fcgi = fcgi_client.FCGIApp(connect=self.fcgi_sock)
 	else:
 		fcgi = fcgi_client.FCGIApp(host = self.fcgi_host,
 					   port = self.fcgi_port)
