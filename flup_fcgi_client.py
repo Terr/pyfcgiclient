@@ -428,7 +428,7 @@ class FCGIApp(object):
         rec = Record(FCGI_PARAMS, requestId)
         data = []
         for name,value in params.items():
-            data.append(encode_pair(name, value))
+            data.append(encode_pair(name.encode('latin-1'), value.encode('latin-1')))
         data = ''.join(data)
         rec.contentData = data
         rec.contentLength = len(data)
